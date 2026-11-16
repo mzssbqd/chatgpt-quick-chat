@@ -1,0 +1,7 @@
+.build/
+build/
+tmp/
+.DS_Store
+
+# Local acceptance reports and screenshots
+/outputs/

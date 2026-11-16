@@ -1,0 +1,66 @@
+html[data-qc-compact],
+html[data-qc-compact] body {
+  overflow: hidden !important;
+  background: transparent !important;
+}
+html[data-qc-compact] body { visibility: hidden !important; }
+
+html[data-qc-no-editor] body::after {
+  content: "请从菜单栏选择「显示完整页面」以继续";
+  position: fixed;
+  inset: auto 8px 8px;
+  padding: 16px;
+  border-radius: 18px;
+  background: Canvas;
+  color: CanvasText;
+  text-align: center;
+  visibility: visible;
+}
+
+/* Keep the complete official composer, including its toolbar and editor styles.
+   Only its outer placement changes between the two panel sizes. */
+html[data-qc-compact] body :has([data-qc-form]) { display: contents !important; }
+html[data-qc-compact] [data-qc-form] {
+  visibility: visible !important;
+  position: fixed !important;
+  inset: auto 8px 8px !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+html[data-qc-compact] :is([data-qc-popup],dialog[open],[role="dialog"],[role="menu"],[role="listbox"],[popover]:popover-open) {
+  visibility: visible !important;
+}
+
+/* Keep the compact composer edge flat against the desktop. */
+html[data-qc-compact] [data-qc-surface],
+html[data-qc-compact] [data-qc-form] {
+  box-shadow: none !important;
+}
+
+/* Let long links and unbroken words wrap in the reading viewport. Code
+   blocks retain their native horizontal scrolling. */
+html:not([data-qc-compact]) :is([data-message-author-role], [data-response-body], [data-user-message-bubble]) :is(p, li, a) {
+  overflow-wrap: anywhere;
+}
+
+/* Cap illustrations in assistant replies, preserving the source aspect ratio. */
+html:not([data-qc-compact]) :is([data-message-author-role="assistant"], [data-response-body]) img:not([role="presentation"], [aria-hidden="true"]) {
+  max-width: 100% !important;
+  max-height: min(34vh, 360px) !important;
+  object-fit: contain;
+}
+
+/* Scale only conversation content. WebKit keeps native-size editor controls
+   and responsive breakpoints at one CSS pixel per AppKit point. */
+html:not([data-qc-compact]) :is([data-message-author-role], [data-response-body], [data-user-message-bubble]) {
+  --qc-message-size: clamp(14px, calc(12px + .45vw), 17px);
+}
+html:not([data-qc-compact]) :is([data-message-author-role], [data-response-body]) :is(.markdown, p, li),
+html:not([data-qc-compact]) [data-user-message-bubble] .text-size-chat,
+html:not([data-qc-compact]) [data-message-author-role="user"] {
+  font-size: var(--qc-message-size);
+}
+[data-qc-form] button:not([hidden]) {
+  min-width: 28px;
+  min-height: 28px;
+}
