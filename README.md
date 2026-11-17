@@ -1,30 +1,30 @@
 # chatgpt-quick-chat
 
-在 Mac 上按 **⌥ Space**，直接和 ChatGPT 聊天。
+Press **Option–Space** to chat with ChatGPT from anywhere on your Mac.
 
-有时候我们只想问个问题，再顺着回答聊两句。ChatGPT 的 Chat 模式就很适合这种用法，日常提问也可以把 Work 和 Codex 的额度留给手头的任务。但更新到新版桌面应用后，按 ⌥ Space 唤出的是 Work。想用熟悉的快捷键直接聊天，还得回到 ChatGPT Classic。
+Sometimes you just want to ask a question and follow up. Chat is built for that, and you can save your Work and Codex allowance for tasks that need it. In the new desktop app, though, Option–Space opens Work. ChatGPT Classic still has the familiar chat shortcut, but its in-app notice says support will end in 2027. Classic also uses the older reply layout and can't display the visuals and interactive elements available on the web.
 
-Classic 也有两个问题。按客户端提示，它将在 2027 年结束支持。它用的还是旧版回答排版，网页版能在回答里直接展示的图示和交互内容，在 Classic 里看不到。
+We built **chatgpt-quick-chat** to bring that shortcut back with the same answers and formatting you get on the ChatGPT website.
 
-所以我们做了 **chatgpt-quick-chat**，把 ChatGPT 网页版放进一个随时能唤出的 macOS 浮窗。
+## How it works
 
-## 它是怎么工作的？
+The app opens ChatGPT in a small, native macOS window using WebKit’s embedded browser (WKWebView). You sign in with your own account. The website handles messages, image uploads, and replies. The app adapts the layout to fit the window.
 
-浮窗里嵌了一个浏览器（WKWebView），直接打开 ChatGPT 官网。用自己的账号登录，输入、上传图片和显示回答都由官网处理。我们调整了网页在小窗口里的布局：按 ⌥ Space 时，屏幕下方只露出输入框，可以直接打字或粘贴图片。
+Press **Option–Space** and a chat bar appears near the bottom of your screen. Type a question or paste an image.
 
-<img src="docs/images/compact.png" width="520" alt="紧凑输入框中写着：在 Mac 上，怎么只截取一个窗口？">
+<img src="docs/images/compact.png" width="520" alt="The compact chat bar with a question about taking a screenshot of a single window on a Mac.">
 
-发送后，浮窗向上展开，按网页版的排版显示回答。看完再按一次 ⌥ Space 就能收起。默认 30 分钟内再次唤出可以接着聊，时限可在菜单栏调整。
+Send your message and the window expands upward so you can read the reply and ask a follow-up. Press **Option–Space** again to hide it. By default, reopening it within 30 minutes resumes the conversation. You can change that interval in the menu bar.
 
-<img src="docs/images/expanded.png" width="462" alt="展开后的阅读窗口展示 ChatGPT 的截图操作说明，底部可以继续提问">
+<img src="docs/images/expanded.png" width="462" alt="The expanded window shows ChatGPT’s screenshot instructions, with room for a follow-up question below.">
 
-## 从源码运行
+## Build and run
 
-需要 macOS 14 或更高版本，以及 Xcode 的 Swift 工具链。在项目目录运行：
+You'll need macOS 14 or later and the Swift toolchain included with Xcode. From the project directory, run:
 
 ```sh
 bash scripts/build.sh
 open build/chatgpt-quick-chat.app
 ```
 
-首次登录可从菜单栏选择「显示完整页面」。应用代码在 `Sources/ChatPanel/`，构建入口在 `scripts/`。
+To sign in for the first time, open the full ChatGPT page from the app’s menu bar menu. The app source is in `Sources/ChatPanel/`, and the build scripts are in `scripts/`.
