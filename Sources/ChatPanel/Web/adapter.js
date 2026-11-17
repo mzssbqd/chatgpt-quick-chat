@@ -60,9 +60,7 @@
     for (let node = editor; node && owner.contains(node); node = node.parentElement) {
       if (parseFloat(getComputedStyle(node).borderTopLeftRadius) >= 16 &&
           node.getBoundingClientRect().width >= owner.clientWidth * 0.9) {
-        sizeObserver.disconnect();
         surface = node;
-        sizeObserver.observe(node);
         node.setAttribute('data-qc-surface', '');
         break;
       }
@@ -70,8 +68,8 @@
   }
   let lastHeight;
   function measureComposer() {
-    if (!active || !compact || !root.hasAttribute('data-qc-compact') || !surface?.isConnected) return;
-    const height = surface.getBoundingClientRect().height;
+    if (!active || !compact || !root.hasAttribute('data-qc-compact') || !form?.isConnected) return;
+    const height = form.getBoundingClientRect().height;
     if (lastHeight !== height) {
       lastHeight = height;
       post({composerHeight:height});
@@ -109,9 +107,11 @@
     if (input && !input.hasAttribute('data-qc-editor')) input.setAttribute('data-qc-editor', '');
     const next = input?.closest('form');
     if (form !== next) {
+      sizeObserver.disconnect();
       form?.removeAttribute('data-qc-form');
       form = next;
       form?.setAttribute('data-qc-form', '');
+      if (form) sizeObserver.observe(form, {box:'border-box'});
     }
     markComposerSurface(input, form);
     measureComposer();
